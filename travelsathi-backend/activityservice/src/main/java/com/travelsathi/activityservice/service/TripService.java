@@ -3,7 +3,9 @@ package com.travelsathi.activityservice.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.travelsathi.activityservice.dto.TripRequest;
@@ -22,6 +24,15 @@ public class TripService {
 
     @Autowired
     private UserValidationService userValidationService;
+
+    @Value("${rabbitmq.exchange.name}")
+    private String exchange;
+
+    @Value("${rabbitmq.routing.key}")
+    private String routingKey;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     private TripResponse mapToResponse(Trip trip){
         TripResponse response = new TripResponse();
@@ -57,6 +68,15 @@ public class TripService {
 
         Trip tripSaved = tripRepository.save(trip);
         TripResponse response = mapToResponse(tripSaved);
+
+        // Publish to RabbitMQ for AI Processing
+        try{
+            rabbitTemplate.convertAndSend(exchange, routingKey, tripSaved);
+        }
+        catch(Exception e){
+            log.error("Failed to publish activity to RabbitMQ : ", e);
+        }
+
         return response;
     }
 
