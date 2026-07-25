@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: apigateway
+
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: userservice
+              uri: lb://USERSERVICE
+              predicates:
+                - Path=/api/v1/users/**
+
+            - id: aiservice
+              uri: lb://AISERVICE
+              predicates:
+                - Path=/api/v1/recommendations/**
+
+            - id: activityservice
+              uri: lb://ACTIVITYSERVICE
+              predicates:
+                - Path=/api/v1/trips/**
+
+server:
+  port: 8005
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
