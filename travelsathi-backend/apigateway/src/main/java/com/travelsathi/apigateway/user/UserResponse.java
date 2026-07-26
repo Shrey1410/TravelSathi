@@ -1,4 +1,4 @@
-package com.travelsathi.userservice.dto;
+package com.travelsathi.apigateway.user;
 
 import java.time.LocalDateTime;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.travelsathi.userservice.dto;
+package com.travelsathi.apigateway.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class RegisterUserRequest {
+public class RegisterRequest {
     @NotBlank(message ="Email is required")
     @Email(message="Invalid Email format")
     private String email;

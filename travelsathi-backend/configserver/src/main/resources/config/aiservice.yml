@@ -28,7 +28,3 @@ rabbitmq:
     key: activity.tracking
 
 # Add your gemini key and URL
-# gemini:
-#   api:
-#     url: x
-#     key: x

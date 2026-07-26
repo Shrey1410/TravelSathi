@@ -26,6 +26,8 @@ public class Users {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
+    private String providerId;
+
     @Column(unique=true, nullable=false)
     private String email;
 

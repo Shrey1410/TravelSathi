@@ -29,6 +29,7 @@ public class UserService {
         user.setPassword(userRequest.getPassword());
         user.setFirstName(userRequest.getFirstName());
         user.setLastName(userRequest.getLastName());
+        user.setProviderId(userRequest.getProviderId());
 
         Users savedUser = userRepository.save(user);
         UserResponse userResponse = new UserResponse();
@@ -39,11 +40,12 @@ public class UserService {
         userResponse.setLastName(savedUser.getLastName());
         userResponse.setCreatedAt(savedUser.getCreatedAt());
         userResponse.setUpdatedAt(savedUser.getUpdatedAt());
+        userResponse.setProviderId(savedUser.getProviderId());
         return userResponse;
     }
 
-    public UserResponse getUserProfile(String userId){
-        Users user = userRepository.findById(userId).orElseThrow(()-> new RuntimeException("User Does not Exists"));
+    public UserResponse getUserProfile(String providerId){
+        Users user = userRepository.findByProviderId(providerId).orElseThrow(()-> new RuntimeException("User Does not Exists"));
         UserResponse userResponse = new UserResponse();
         userResponse.setId(user.getId());
         userResponse.setEmail(user.getEmail());
@@ -52,12 +54,13 @@ public class UserService {
         userResponse.setLastName(user.getLastName());
         userResponse.setCreatedAt(user.getCreatedAt());
         userResponse.setUpdatedAt(user.getUpdatedAt());
+        userResponse.setProviderId(user.getProviderId());
         return userResponse;
     }
 
-    public boolean existsByUserId(String userId){
-        log.info("Calling user validation API for userId: {}", userId);
-        return userRepository.existsById(userId);
+    public boolean existsByProviderId(String providerId){
+        log.info("Calling user validation API for userId: {}", providerId);
+        return userRepository.existsByProviderId(providerId);
     }
 
 }
