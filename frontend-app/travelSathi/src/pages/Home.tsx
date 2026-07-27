@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 import image2 from "../assets/image2.jpg";
+import { Link } from "react-router";
 
 const Home = () => {
   return (
@@ -22,9 +23,9 @@ const Home = () => {
               and enjoy hassle free travel—all powered by AI.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <button className="bg-blue-700 hover:bg-blue-700 transition text-white px-8 py-4 rounded-xl font-semibold shadow-lg">
+              <Link to="/plan" className="bg-blue-700 hover:bg-blue-800 transition text-white px-8 py-4 rounded-xl font-semibold shadow-lg">
                 Plan My Trip
-              </button>
+              </Link>
             </div>
           </div>
           {/* Right Section */}
