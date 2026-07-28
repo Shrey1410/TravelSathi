@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 
-const Plan = () => {
+const PlanPage = () => {
   return (
     <div className="min-h-screen bg-gray-200">
       <Navbar />
@@ -92,4 +92,4 @@ const Plan = () => {
   );
 };
 
-export default Plan;
+export default PlanPage;

@@ -3,11 +3,10 @@ import Navbar from "../components/Navbar";
 import image2 from "../assets/image2.jpg";
 import { Link } from "react-router";
 
-const Home = () => {
+const HomePage = () => {
   return (
     <div className="min-h-screen bg-gray-100">
       <Navbar />
-
       <section className="max-w-7xl mx-auto px-8 py-16">
         <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-12">
           {/* Left Section */}
@@ -42,4 +41,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomePage;

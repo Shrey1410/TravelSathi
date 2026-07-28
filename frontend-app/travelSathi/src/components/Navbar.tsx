@@ -21,19 +21,19 @@ const Navbar = () => {
           <Link to="/" className="hover:text-blue-700 transition-colors duration-200">
             Home
           </Link>
-          <Link to="/" className="hover:text-blue-700 transition-colors duration-200">
+          <Link to="/about" className="hover:text-blue-700 transition-colors duration-200">
             About Us
           </Link>
         </div>
 
         {/* Buttons */}
         <div className="flex items-center gap-3">
-          <button className="px-5 py-2 rounded-lg border-2 border-blue-600 text-blue-600 bg-white hover:bg-blue-50 transition-all duration-200 font-medium">
-            Check your Plans
-          </button>
-          <button className="px-5 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-all duration-200 font-medium">
+          <Link to="/trips" className="px-5 py-2 rounded-lg border-2 border-blue-600 text-blue-600 bg-white hover:bg-blue-50 transition-all duration-200 font-medium">
+            Check your Trips
+          </Link>
+          <Link to="/login" className="px-5 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-all duration-200 font-medium">
             Login
-          </button>
+          </Link>
         </div>
 
       </div>
