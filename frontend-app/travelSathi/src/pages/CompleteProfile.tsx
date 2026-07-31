@@ -2,6 +2,7 @@ import { useEffect, useState, type SubmitEvent } from "react";
 import { useNavigate } from "react-router";
 import { getAuth } from "firebase/auth";
 import axios from "axios";
+import { toast } from "sonner";
 
 export default function CompleteProfilePage() {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ export default function CompleteProfilePage() {
   const handleSubmit = async ( e: SubmitEvent<HTMLFormElement> ) => {
     e.preventDefault();
     if (!firstName.trim() || !lastName.trim()) {
-      alert("Please enter both first name and last name.");
+      toast.error("Please provide the FirstName and LastName properly.")
       return;
     }
     try {
@@ -21,7 +22,6 @@ export default function CompleteProfilePage() {
       const auth = getAuth();
       const user = auth.currentUser;
       if (!user) {
-        alert("User is not authenticated.");
         navigate("/login");
         return;
       }
@@ -41,9 +41,10 @@ export default function CompleteProfilePage() {
         }
       );
       navigate("/");
+      toast.success("User Profile created successfully!")
     } catch (error) {
+      toast.error("Error while creating user profile!")
       console.error(error);
-      alert("Failed to save profile.");
     } finally {
       setLoading(false);
     }
@@ -53,7 +54,6 @@ export default function CompleteProfilePage() {
     const auth = getAuth();
     const user = auth.currentUser;
     if (!user) {
-      alert("User is not authenticated.");
       navigate("/login");
       return;
     }

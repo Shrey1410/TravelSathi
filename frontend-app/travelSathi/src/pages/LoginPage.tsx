@@ -1,8 +1,4 @@
-import {
-    SignInAuthScreen,
-    SignUpAuthScreen,
-    GoogleSignInButton,
-} from "@firebase-oss/ui-react";
+import { SignInAuthScreen, SignUpAuthScreen, GoogleSignInButton } from "@firebase-oss/ui-react";
 import { useNavigate } from "react-router";
 import { useState } from "react";
   

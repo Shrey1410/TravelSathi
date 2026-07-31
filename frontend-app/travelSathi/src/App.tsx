@@ -11,10 +11,15 @@ import { onAuthStateChanged } from "firebase/auth"
 import { useEffect } from "react"
 import { login, logout } from "./store/authSlice"
 import { auth } from "./firebase/firebase"
+import { Toaster } from "sonner"
 
 function App() {
+
   const dispatch = useDispatch()
 
+  /**
+   * Updates the AuthState whenever user Login/Logout or refresh the app
+  */
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -36,6 +41,11 @@ function App() {
   }, [dispatch]);
 
   return (
+    /**
+     * All the Routes for the application to be added here 
+     */
+    <>
+    <Toaster richColors position="top-right" closeButton/>
     <Routes>
       <Route path="/" element={<HomePage/>}/>
       <Route path="/plan" element={<PlanPage/>}/>
@@ -45,6 +55,7 @@ function App() {
       <Route path="/login" element={<LoginPage/>}/>
       <Route path="/complete-profile" element={<CompleteProfilePage/>}/>
     </Routes>
+    </>
   )
 }
 

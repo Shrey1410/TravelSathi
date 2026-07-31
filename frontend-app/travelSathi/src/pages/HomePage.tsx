@@ -1,6 +1,5 @@
-import React from "react";
 import Navbar from "../components/Navbar";
-import image2 from "../assets/image2.jpg";
+import homeimage from "../assets/home-image.jpg";
 import { Link } from "react-router";
 
 const HomePage = () => {
@@ -9,6 +8,7 @@ const HomePage = () => {
       <Navbar />
       <section className="max-w-7xl mx-auto px-8 py-16">
         <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-12">
+
           {/* Left Section */}
           <div className="flex-1 text-center lg:text-left">
             <h1 className="mt-6 text-5xl md:text-6xl font-extrabold text-gray-900 leading-tight">
@@ -27,14 +27,16 @@ const HomePage = () => {
               </Link>
             </div>
           </div>
+
           {/* Right Section */}
           <div className="flex-1 flex justify-center">
             <img
-              src={image2}
+              src={homeimage}
               alt="Travel Illustration"
               className="w-full max-w-xl rounded-3xl shadow-2xl object-cover"
             />
           </div>
+
         </div>
       </section>
     </div>

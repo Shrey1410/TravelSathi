@@ -1,11 +1,5 @@
-import {
-  Calendar,
-  MapPin,
-  ArrowRight,
-} from "lucide-react";
-  
+import { Calendar, MapPin, ArrowRight } from "lucide-react";
 import { Link } from "react-router";
-
 import type { Trip } from "../types/Trip";
   
 interface Props {

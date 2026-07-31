@@ -1,6 +1,4 @@
-import {
-  CloudSun,
-} from "lucide-react";
+import { CloudSun } from "lucide-react";
   
 interface Props {
   weather: string;

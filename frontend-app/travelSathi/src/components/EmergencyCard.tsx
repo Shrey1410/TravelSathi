@@ -1,9 +1,4 @@
-import {
-  ShieldAlert,
-  PhoneCall,
-  Hospital,
-  Shield,
-} from "lucide-react";
+import { ShieldAlert, PhoneCall, Hospital, Shield } from "lucide-react";
 
 import type { EmergencyContacts } from "../types/Recommendation";
 
@@ -27,10 +22,9 @@ const EmergencyCard = ({ contacts }: Props) => {
         {/* Police */}
         <div className="flex items-start gap-4 rounded-xl bg-slate-50 p-4">
           <Shield className="text-blue-600 mt-1 shrink-0" size={22} />
-
           <div className="min-w-0">
             <h3 className="font-semibold text-slate-800">Police</h3>
-            <p className="text-slate-600 break-words">
+            <p className="text-slate-600 wrap-break-word">
               {contacts.police}
             </p>
           </div>
@@ -39,12 +33,11 @@ const EmergencyCard = ({ contacts }: Props) => {
         {/* Hospital */}
         <div className="flex items-start gap-4 rounded-xl bg-slate-50 p-4">
           <Hospital className="text-blue-500 mt-1 shrink-0" size={22} />
-
           <div className="min-w-0">
             <h3 className="font-semibold text-slate-800">
               Hospital
             </h3>
-            <p className="text-slate-600 break-words">
+            <p className="text-slate-600 wrap-break-word">
               {contacts.hospital}
             </p>
           </div>
@@ -53,12 +46,11 @@ const EmergencyCard = ({ contacts }: Props) => {
         {/* Tourist Helpline */}
         <div className="flex items-start gap-4 rounded-xl bg-slate-50 p-4">
           <PhoneCall className="text-blue-600 mt-1 shrink-0" size={22} />
-
           <div className="min-w-0">
             <h3 className="font-semibold text-slate-800">
               Tourist Helpline
             </h3>
-            <p className="text-slate-600 break-words">
+            <p className="text-slate-600 wrap-break-word">
               {contacts.touristHelpline}
             </p>
           </div>

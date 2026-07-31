@@ -8,7 +8,6 @@ import PackingCard from "../components/PackingCard";
 import TravelTipsCard from "../components/TravelTipsCard";
 import EmergencyCard from "../components/EmergencyCard";
 import Timeline from "../components/TimeLine";
-
 import type { Recommendation } from "../types/Recommendation";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
@@ -19,13 +18,9 @@ import type { Trip } from "../types/Trip";
 const RecommendationPage = () => {
 
   const location = useLocation();
-
   const { trip } = location.state as { trip: Trip };
-
   const {tripId} = useParams();
-
   const navigate = useNavigate();
-
   const [recommendation, setRecommendation] = useState<Recommendation | null>(null);
 
   useEffect(()=>{
@@ -33,7 +28,6 @@ const RecommendationPage = () => {
       const auth = getAuth();
       const user = auth.currentUser;
       if (!user) {
-        alert("User is not authenticated.");
         navigate("/login");
         return;
       }
@@ -47,11 +41,12 @@ const RecommendationPage = () => {
             },
           }
         )
+        // calculate the duration
         const start = new Date(trip.startDate);
         const end = new Date(trip.endDate);
-
         const diffInMs = end.getTime() - start.getTime();
         const durationInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+
         setRecommendation({
           ...res.data,
           destination : trip.destination,
@@ -59,7 +54,6 @@ const RecommendationPage = () => {
           endDate : trip.endDate,
           duration : durationInDays,
           budget : res.data?.estimatedBudget?.total
-
         })
       } catch (err) {
         console.log(err);
@@ -68,9 +62,16 @@ const RecommendationPage = () => {
     fetchRecommendation()
   }, [trip, tripId, navigate])
 
-  if(recommendation && trip){
+  if (!recommendation || !trip) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <div className="h-10 w-10 animate-spin rounded-full border-4 border-blue-500 border-t-transparent" />
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-slate-200">
+    <div className="min-h-screen bg-linear-to-br from-slate-100 via-blue-50 to-slate-200">
       <Navbar />
       <main className="max-w-7xl mx-auto px-6 py-8 space-y-10">
         {/* Hero */}
@@ -112,7 +113,6 @@ const RecommendationPage = () => {
       </main>
     </div>
   );
-}
 };
 
 export default RecommendationPage;

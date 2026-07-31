@@ -5,10 +5,7 @@ interface Props {
   overview: string;
 }
 
-const DestinationCard = ({
-  destination,
-  overview,
-}: Props) => {
+const DestinationCard = ({ destination, overview }: Props) => {
   return (
     <div className="bg-white rounded-3xl shadow-lg p-6">
       <div className="flex items-center gap-3 mb-5">

@@ -1,8 +1,13 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import axios from "axios";
 import { getAuth } from "firebase/auth";
 import { useNavigate } from "react-router";
+import { toast } from "sonner";
+import { useSelector } from "react-redux";
+import type { RootState } from "../store/store";
+
+// This interface represents the Form Data for Trip creation
 interface TripFormData {
   source: string;
   destination: string;
@@ -23,44 +28,48 @@ const initialState: TripFormData = {
 
 const PlanPage = () => {
   const [formData, setFormData] = useState<TripFormData>(initialState);
-  const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const isLoggedIn = useSelector(
+    (state: RootState) => state.auth.isLoggedIn
+  );
+
+  useEffect(()=>{
+    if(!isLoggedIn){
+      navigate("/login")
+    }
+  }, [navigate, isLoggedIn])
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Applies the form validation checks
   const validate = (): string | null => {
-    if (!formData.destination.trim()) return "Please enter a destination.";
-    if (!formData.startDate || !formData.endDate)
-      return "Please select both start and end dates.";
-    if (new Date(formData.endDate) < new Date(formData.startDate))
-      return "End date can't be before start date.";
-    if (
-      formData.numberOfTravelers &&
-      Number(formData.numberOfTravelers) < 1
-    )
-      return "Number of travelers must be at least 1.";
+    if (!formData.source.trim()) return "Please enter your starting point"
+    if (!formData.destination.trim()) return "Please enter your destination.";
+    if (!formData.startDate || !formData.endDate) return "Please select both start and end dates.";
+    if (new Date(formData.endDate) < new Date(formData.startDate)) return "End date can't be before start date.";
+    if (new Date(formData.startDate) < new Date() || new Date(formData.endDate) < new Date()) return "Start Date and End Date must be in future."
+    if (formData.numberOfTravelers && Number(formData.numberOfTravelers) < 1) return "Number of travelers must be at least 1.";
+    if (!formData.additionalPreference.trim()) return "Please provide additional preference."
     return null;
   };
 
+  // Submits the Form Data
   const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
     const validationError = validate();
     if (validationError) {
-      setError(validationError);
+      toast.error(validationError)
       return;
     }
-    setError(null);
     setIsSubmitting(true);
     const auth = getAuth();
     const user = auth.currentUser;
     if (!user) {
-      alert("User is not authenticated.");
       navigate("/login");
       return;
     }
@@ -72,13 +81,10 @@ const PlanPage = () => {
         destination: formData.destination,
         startDate: formData.startDate,
         endDate: formData.endDate,
-        numberOfTravelers: formData.numberOfTravelers
-          ? Number(formData.numberOfTravelers)
-          : null,
+        numberOfTravelers: formData.numberOfTravelers ? Number(formData.numberOfTravelers) : null,
         additionalPreference: formData.additionalPreference || null,
       };
-
-      const res = await axios.post(
+      await axios.post(
         "http://localhost:8005/api/v1/trips",
         payload,
         {
@@ -87,11 +93,11 @@ const PlanPage = () => {
           },
         }
       )
-      console.log(res);
-    } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Something went wrong. Please try again."
-      );
+      toast.success("Trip created successfully!")
+      navigate("/trips")
+    } catch (error) {
+      console.log(error);
+      toast.error("Error while creating the Trip!")
     } finally {
       setIsSubmitting(false);
     }
@@ -105,13 +111,6 @@ const PlanPage = () => {
           <h1 className="text-3xl font-bold text-center mb-8">
             Tell us about your Trip
           </h1>
-
-          {error && (
-            <div className="mb-6 rounded-lg bg-red-50 border border-red-200 text-red-700 px-4 py-3 text-sm">
-              {error}
-            </div>
-          )}
-
           <form className="space-y-6" onSubmit={handleSubmit}>
             {/* Source & Destination */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -125,6 +124,7 @@ const PlanPage = () => {
                   value={formData.source}
                   onChange={handleChange}
                   placeholder="Your starting city"
+                  required
                   className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -186,6 +186,7 @@ const PlanPage = () => {
                 onChange={handleChange}
                 min="1"
                 placeholder="2"
+                required
                 className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
@@ -200,6 +201,7 @@ const PlanPage = () => {
                 value={formData.additionalPreference}
                 onChange={handleChange}
                 rows={4}
+                required
                 placeholder="Tell us anything else you'd like us to know..."
                 className="w-full border rounded-lg px-4 py-3 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
               />

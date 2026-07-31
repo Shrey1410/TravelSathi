@@ -1,9 +1,9 @@
-import React from "react";
 import type { RootState } from "../store/store";
 import { useSelector } from "react-redux";
 import { Link } from "react-router";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/firebase"
+import { toast } from "sonner";
 
 const Navbar = () => {
 
@@ -11,11 +11,13 @@ const Navbar = () => {
     (state: RootState) => state.auth.isLoggedIn
   );
 
+  // When the user clicks the Logout button then this function is invoked
   const handleLogout = async () =>{
-    console.log("entered")
     try {
       await signOut(auth);
+      toast.success("Logout successful!")
     } catch (error) {
+      toast.error("Error while Logout!");
       console.error(error);
     }
   }
@@ -38,6 +40,9 @@ const Navbar = () => {
         <div className="hidden md:flex items-center gap-8 text-gray-600 font-medium">
           <Link to="/" className="hover:text-blue-700 transition-colors duration-200">
             Home
+          </Link>
+          <Link to="/plan" className="hover:text-blue-700 transition-colors duration-200">
+            Plan
           </Link>
           <Link to="/about" className="hover:text-blue-700 transition-colors duration-200">
             About Us

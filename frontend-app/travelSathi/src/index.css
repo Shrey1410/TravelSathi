@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import '@firebase-oss/ui-styles/dist.min.css';
 
+
+/* This is required to override the Firebase UI CSS */
 :root {
     --fui-primary: #2563eb;         /* button/link color (matches your blue-600) */
     --fui-primary-hover: #1d4ed8;

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import TripCard from "../components/TripCard";
-
 import type { Trip } from "../types/Trip";
 import { getAuth } from "firebase/auth";
 import { Link, useNavigate } from "react-router";
@@ -9,6 +8,7 @@ import axios from "axios";
 
 const TripPage = () => {
   const [trips, setTrips] = useState<Trip[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate()
 
   useEffect( () => {
@@ -16,10 +16,10 @@ const TripPage = () => {
       const auth = getAuth();
       const user = auth.currentUser;
       if (!user) {
-        alert("User is not authenticated.");
         navigate("/login");
         return;
       }
+      setIsLoading(true);
       const idToken = await user.getIdToken();
       try {
         const res = await axios.get(
@@ -38,9 +38,20 @@ const TripPage = () => {
       } catch (err) {
         console.log(err);
       }
+      finally{
+        setIsLoading(false);
+      }
     }
     fetchTrips()
-  }, [])
+  }, [navigate])
+
+  if(isLoading){
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <div className="h-10 w-10 animate-spin rounded-full border-4 border-blue-500 border-t-transparent" />
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-slate-100">

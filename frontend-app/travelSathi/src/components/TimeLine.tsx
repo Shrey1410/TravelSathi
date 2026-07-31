@@ -1,7 +1,5 @@
 import { useState } from "react";
-
 import type { Itinerary } from "../types/Recommendation";
-
 import DayTabs from "./DayTabs";
 import ActivityCard from "./ActivityCard";
 
