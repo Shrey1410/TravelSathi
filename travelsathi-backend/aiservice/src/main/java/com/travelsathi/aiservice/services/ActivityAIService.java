@@ -78,6 +78,7 @@ public class ActivityAIService {
                         "miscellaneous": 0,
                         "total": 0
                     },
+                    "destinationImageURL" : Image URL for the destination,
                     "packingSuggestions": [
                         "Item 1",
                         "Item 2"
@@ -99,10 +100,11 @@ public class ActivityAIService {
                 - Destination: %s
                 - Start Date: %s
                 - End Date: %s
-                - Budget: %s
+                - Number of Travellers: %s
+                - Additional Prefrences: %s
 
                 On the basis of the Trip details generate the Travel Plan in the EXACT JSON format: 
-                """, trip.getSource(), trip.getDestination(), trip.getStartDate(), trip.getEndDate(), trip.getBudget());
+                """, trip.getSource(), trip.getDestination(), trip.getStartDate(), trip.getEndDate(), trip.getNumberOfTravelers(), trip.getAdditionalPreference());
     }
 
 }

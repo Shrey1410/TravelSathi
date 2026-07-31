@@ -13,7 +13,8 @@ public class TripResponse {
     private String destination;
     private LocalDate startDate;
     private LocalDate endDate;
+    private Integer numberOfTravelers;
+    private String additionalPreference;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private Long budget;
 }

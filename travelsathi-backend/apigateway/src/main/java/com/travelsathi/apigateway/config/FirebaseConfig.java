@@ -1,0 +1,42 @@
+package com.travelsathi.apigateway.config;
+
+import com.google.api.client.http.HttpRequestInitializer;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+
+import jakarta.annotation.PostConstruct;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
+
+import java.io.InputStream;
+
+@Configuration
+public class FirebaseConfig {
+
+    @PostConstruct
+    public void initialization() {
+        try {
+            InputStream serviceAccount = new ClassPathResource("firebase-service-account.json").getInputStream();
+
+            HttpTransport transport = new NetHttpTransport.Builder().build();
+
+            HttpRequestInitializer requestInitializer = request -> {
+                request.getHeaders().setAcceptEncoding(null); // disable gzip negotiation
+            };
+
+            FirebaseOptions options = FirebaseOptions.builder()
+                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                    .setHttpTransport(transport)
+                    .build();
+
+            FirebaseApp.initializeApp(options);
+
+        } catch (Exception error) {
+            throw new IllegalStateException("Failed to initialize FirebaseApp", error);
+        }
+    }
+}

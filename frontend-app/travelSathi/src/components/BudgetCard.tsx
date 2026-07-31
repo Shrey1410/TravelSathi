@@ -48,9 +48,9 @@ const BudgetCard = ({ budget }: Props) => {
 
       <div className="flex items-center gap-3 mb-6">
 
-        <div className="bg-emerald-100 p-3 rounded-full">
+        <div className="bg-blue-100 p-3 rounded-full">
 
-          <Wallet className="text-emerald-700" />
+          <Wallet className="text-blue-700" />
 
         </div>
 

@@ -18,15 +18,14 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public UserResponse createUserProfile(RegisterUserRequest userRequest){
-
-        if(userRepository.existsByEmail(userRequest.getEmail())){
-            throw new RuntimeException("Email already exists.");
-        }
-
+    /**
+     * Creates or Updates the user data in the database.
+     * @param userRequest
+     * @return
+     */
+    public UserResponse createOrUpdateUserProfile(RegisterUserRequest userRequest){
         Users user = new Users();
         user.setEmail(userRequest.getEmail());
-        user.setPassword(userRequest.getPassword());
         user.setFirstName(userRequest.getFirstName());
         user.setLastName(userRequest.getLastName());
         user.setProviderId(userRequest.getProviderId());
@@ -35,7 +34,6 @@ public class UserService {
         UserResponse userResponse = new UserResponse();
         userResponse.setId(savedUser.getId());
         userResponse.setEmail(savedUser.getEmail());
-        userResponse.setPassword(savedUser.getPassword());
         userResponse.setFirstName(savedUser.getFirstName());
         userResponse.setLastName(savedUser.getLastName());
         userResponse.setCreatedAt(savedUser.getCreatedAt());
@@ -49,7 +47,6 @@ public class UserService {
         UserResponse userResponse = new UserResponse();
         userResponse.setId(user.getId());
         userResponse.setEmail(user.getEmail());
-        userResponse.setPassword(user.getPassword());
         userResponse.setFirstName(user.getFirstName());
         userResponse.setLastName(user.getLastName());
         userResponse.setCreatedAt(user.getCreatedAt());

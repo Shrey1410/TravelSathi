@@ -22,19 +22,24 @@ public class UserController {
     @Autowired
     private UserService userService;
     
-    @GetMapping("/{userId}")
+    @GetMapping("/{providerId}")
     public ResponseEntity<UserResponse> getUserProfie(@PathVariable String userId){
         return ResponseEntity.ok(userService.getUserProfile(userId));
     }
 
-    @PostMapping("/")
-    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody RegisterUserRequest request){
-        return ResponseEntity.ok(userService.createUserProfile(request));
+    /**
+     * Should have single endpoint for creating and updating the user
+     * @param request
+     * @return
+     */
+    @PostMapping
+    public ResponseEntity<UserResponse> createOrUpdateUser(@Valid @RequestBody RegisterUserRequest request){
+        return ResponseEntity.ok(userService.createOrUpdateUserProfile(request));
     }
 
-    @GetMapping("/{userId}/validate")
-    public ResponseEntity<Boolean> validateUserId(@PathVariable String userId){
-        return ResponseEntity.ok(userService.existsByProviderId(userId));
+    @GetMapping("/{providerId}/validate")
+    public ResponseEntity<Boolean> validateUserId(@PathVariable String providerId){
+        return ResponseEntity.ok(userService.existsByProviderId(providerId));
     }
 
 }

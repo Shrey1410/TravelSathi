@@ -13,7 +13,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Document(collection="trip")
+@Document(collection = "trip")
 @Data
 @Builder
 @AllArgsConstructor
@@ -21,12 +21,15 @@ import lombok.NoArgsConstructor;
 public class Trip {
     @Id
     private String id;
+
     private String userId;
     private String source;
     private String destination;
     private LocalDate startDate;
-    private Long budget;
     private LocalDate endDate;
+
+    private Integer numberOfTravelers;
+    private String additionalPreference;
 
     @CreatedDate
     private LocalDateTime createdAt;

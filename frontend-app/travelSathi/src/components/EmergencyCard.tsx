@@ -2,7 +2,7 @@ import {
   ShieldAlert,
   PhoneCall,
   Hospital,
-  Shield
+  Shield,
 } from "lucide-react";
 
 import type { EmergencyContacts } from "../types/Recommendation";
@@ -14,41 +14,54 @@ interface Props {
 const EmergencyCard = ({ contacts }: Props) => {
   return (
     <div className="bg-white rounded-3xl shadow-lg p-6">
+      {/* Header */}
       <div className="flex items-center gap-3 mb-6">
         <div className="bg-blue-100 p-3 rounded-full">
           <ShieldAlert className="text-blue-600" />
         </div>
-        <h2 className="text-2xl font-bold">
-          Emergency
-        </h2>
+        <h2 className="text-2xl font-bold">Emergency</h2>
       </div>
-      <div className="space-y-6">
-        <div className="flex justify-between">
-          <div className="flex items-center gap-3">
-            <Shield />
-            Police
+
+      {/* Content */}
+      <div className="space-y-4">
+        {/* Police */}
+        <div className="flex items-start gap-4 rounded-xl bg-slate-50 p-4">
+          <Shield className="text-blue-600 mt-1 shrink-0" size={22} />
+
+          <div className="min-w-0">
+            <h3 className="font-semibold text-slate-800">Police</h3>
+            <p className="text-slate-600 break-words">
+              {contacts.police}
+            </p>
           </div>
-          <span className="font-bold">
-            {contacts.police}
-          </span>
         </div>
-        <div className="flex justify-between">
-          <div className="flex items-center gap-3">
-            <Hospital />
-            Hospital
+
+        {/* Hospital */}
+        <div className="flex items-start gap-4 rounded-xl bg-slate-50 p-4">
+          <Hospital className="text-blue-500 mt-1 shrink-0" size={22} />
+
+          <div className="min-w-0">
+            <h3 className="font-semibold text-slate-800">
+              Hospital
+            </h3>
+            <p className="text-slate-600 break-words">
+              {contacts.hospital}
+            </p>
           </div>
-          <span className="font-bold">
-            {contacts.hospital}
-          </span>
         </div>
-        <div className="flex justify-between">
-          <div className="flex items-center gap-3">
-            <PhoneCall />
-            Tourist Help
+
+        {/* Tourist Helpline */}
+        <div className="flex items-start gap-4 rounded-xl bg-slate-50 p-4">
+          <PhoneCall className="text-blue-600 mt-1 shrink-0" size={22} />
+
+          <div className="min-w-0">
+            <h3 className="font-semibold text-slate-800">
+              Tourist Helpline
+            </h3>
+            <p className="text-slate-600 break-words">
+              {contacts.touristHelpline}
+            </p>
           </div>
-          <span className="font-bold">
-            {contacts.touristHelpline}
-          </span>
         </div>
       </div>
     </div>

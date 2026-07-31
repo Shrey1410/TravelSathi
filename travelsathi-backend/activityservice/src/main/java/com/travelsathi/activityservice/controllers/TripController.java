@@ -23,12 +23,12 @@ public class TripController {
     @Autowired
     private TripService tripService;
     
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<TripResponse> createTrip(@RequestBody TripRequest request){
         return ResponseEntity.ok(tripService.createTrip(request));
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<TripResponse>> getUserTrips(@RequestParam String userId){
         return ResponseEntity.ok(tripService.getUserTrips(userId));
     }

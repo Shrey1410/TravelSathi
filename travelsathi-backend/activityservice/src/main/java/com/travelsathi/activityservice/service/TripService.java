@@ -42,7 +42,8 @@ public class TripService {
         response.setDestination(trip.getDestination());
         response.setStartDate(trip.getStartDate());
         response.setEndDate(trip.getEndDate());
-        response.setBudget(trip.getBudget());
+        response.setAdditionalPreference(trip.getAdditionalPreference());
+        response.setNumberOfTravelers(trip.getNumberOfTravelers());
         response.setCreatedAt(trip.getCreatedAt());
         response.setUpdatedAt(trip.getUpdatedAt());
         return response;
@@ -63,7 +64,8 @@ public class TripService {
                         .destination(request.getDestination())
                         .startDate(request.getStartDate())
                         .endDate(request.getEndDate())
-                        .budget(request.getBudget())
+                        .additionalPreference(request.getAdditionalPreference())
+                        .numberOfTravelers(request.getNumberOfTravelers())
                         .build();
 
         Trip tripSaved = tripRepository.save(trip);

@@ -10,113 +10,65 @@ import EmergencyCard from "../components/EmergencyCard";
 import Timeline from "../components/TimeLine";
 
 import type { Recommendation } from "../types/Recommendation";
-
-const recommendation: Recommendation = {
-  destination: "Manali",
-  startDate: "15 Aug 2026",
-  endDate: "20 Aug 2026",
-  duration: "5 Days",
-  budget: "₹25,000",
-
-  summary:
-    "Experience the breathtaking beauty of Manali with a perfect blend of adventure and relaxation.",
-
-  weather:
-    "Pleasant weather with temperatures between 18°C and 24°C. Light showers are expected in the evenings.",
-
-  destinationOverview:
-    "Manali is a picturesque hill station in Himachal Pradesh famous for snow-capped mountains, adventure sports, rivers, and vibrant local markets.",
-
-  estimatedBudget: {
-    transport: 4500,
-    hotel: 9000,
-    food: 4500,
-    activities: 5000,
-    miscellaneous: 2000,
-    total: 25000,
-  },
-
-  itinerary: [
-    {
-      day: 1,
-      title: "Arrival & Local Sightseeing",
-      activities: [
-        {
-          time: "09:00",
-          activity: "Hotel Check-in",
-          location: "Mall Road",
-          duration: "1 Hour",
-          estimatedCost: 500,
-          notes: "Freshen up before exploring.",
-        },
-        {
-          time: "11:00",
-          activity: "Hadimba Temple",
-          location: "Old Manali",
-          duration: "2 Hours",
-          estimatedCost: 200,
-          notes: "Carry your camera.",
-        },
-        {
-          time: "14:00",
-          activity: "Lunch",
-          location: "Johnson's Cafe",
-          duration: "1 Hour",
-          estimatedCost: 700,
-          notes: "Try local Himachali cuisine.",
-        },
-      ],
-    },
-    {
-      day: 2,
-      title: "Adventure Day",
-      activities: [
-        {
-          time: "09:00",
-          activity: "Solang Valley",
-          location: "Solang",
-          duration: "5 Hours",
-          estimatedCost: 3500,
-          notes: "Paragliding & Ropeway.",
-        },
-        {
-          time: "17:00",
-          activity: "Cafe Hopping",
-          location: "Old Manali",
-          duration: "2 Hours",
-          estimatedCost: 1000,
-          notes: "Relax with mountain views.",
-        },
-      ],
-    },
-  ],
-
-  packingSuggestions: [
-    "Warm Jacket",
-    "Power Bank",
-    "Umbrella",
-    "Hiking Shoes",
-    "Medicines",
-    "Sunglasses",
-    "Water Bottle",
-  ],
-
-  travelTips: [
-    "Carry enough cash for remote areas.",
-    "Download offline Google Maps.",
-    "Start sightseeing early.",
-    "Keep warm clothes handy.",
-    "Respect local customs.",
-  ],
-
-  emergencyContacts: {
-    police: "100",
-    hospital: "108",
-    touristHelpline: "1363",
-  },
-};
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router";
+import { getAuth } from "firebase/auth";
+import axios from "axios";
+import type { Trip } from "../types/Trip";
 
 const RecommendationPage = () => {
+
+  const location = useLocation();
+
+  const { trip } = location.state as { trip: Trip };
+
+  const {tripId} = useParams();
+
+  const navigate = useNavigate();
+
+  const [recommendation, setRecommendation] = useState<Recommendation | null>(null);
+
+  useEffect(()=>{
+    const fetchRecommendation = async () => {
+      const auth = getAuth();
+      const user = auth.currentUser;
+      if (!user) {
+        alert("User is not authenticated.");
+        navigate("/login");
+        return;
+      }
+      const idToken = await user.getIdToken();
+      try {
+        const res = await axios.get(
+          `http://localhost:8005/api/v1/recommendations/activity/${tripId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${idToken}`,
+            },
+          }
+        )
+        const start = new Date(trip.startDate);
+        const end = new Date(trip.endDate);
+
+        const diffInMs = end.getTime() - start.getTime();
+        const durationInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+        setRecommendation({
+          ...res.data,
+          destination : trip.destination,
+          startDate : trip.startDate,
+          endDate : trip.endDate,
+          duration : durationInDays,
+          budget : res.data?.estimatedBudget?.total
+
+        })
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    fetchRecommendation()
+  }, [trip, tripId, navigate])
+
+  if(recommendation && trip){
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-slate-200">
       <Navbar />
@@ -132,8 +84,8 @@ const RecommendationPage = () => {
           </div>
           <div className="lg:col-span-2">
             <DestinationCard
-              destination={recommendation.destination}
-              overview={recommendation.destinationOverview}
+              destination={recommendation?.destination}
+              overview={recommendation?.destinationOverview}
             />
           </div>
         </section>
@@ -160,6 +112,7 @@ const RecommendationPage = () => {
       </main>
     </div>
   );
+}
 };
 
 export default RecommendationPage;

@@ -4,7 +4,4 @@ export interface Trip {
     destination: string;
     startDate: string;
     endDate: string;
-    budget: number;
-
-    status: "QUEUED" | "PROCESSING" | "COMPLETED" | "FAILED";
 }

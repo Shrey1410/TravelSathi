@@ -11,5 +11,6 @@ public class TripRequest {
     private String destination;
     private LocalDate startDate;
     private LocalDate endDate;
-    private Long budget;
+    private Integer numberOfTravelers;
+    private String additionalPreference;
 }

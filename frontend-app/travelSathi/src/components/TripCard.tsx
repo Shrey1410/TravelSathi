@@ -1,6 +1,5 @@
 import {
   Calendar,
-  IndianRupee,
   MapPin,
   ArrowRight,
 } from "lucide-react";
@@ -17,11 +16,6 @@ const TripCard = ({ trip }: Props) => {
 
   return (
     <div className="bg-white rounded-3xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden">
-      <img
-        src={`https://picsum.photos/500/300?random=${trip.id}`}
-        alt={trip.destination}
-        className="h-52 w-full object-cover"
-      />
       <div className="p-6">
         <h2 className="text-2xl font-bold">
           {trip.destination}
@@ -39,15 +33,9 @@ const TripCard = ({ trip }: Props) => {
               {trip.startDate} - {trip.endDate}
             </span>
           </div>
-          <div className="flex items-center gap-3">
-            <IndianRupee size={18} />
-            <span>
-              ₹{trip.budget.toLocaleString()}
-            </span>
-          </div>
         </div>
         <div className="flex gap-3 mt-8">
-          <Link to="/recommendation" className="flex flex-1 items-center justify-center rounded-xl border border-blue-600 text-blue-600 py-3 font-semibold hover:bg-blue-50 transition">
+          <Link to={`/recommendation/${trip.id}`} state={{trip}} className="flex flex-1 items-center justify-center rounded-xl border border-blue-600 text-blue-600 py-3 font-semibold hover:bg-blue-50 transition">
             View AI Plan
           </Link>
         </div>

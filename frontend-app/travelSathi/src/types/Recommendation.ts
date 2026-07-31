@@ -36,6 +36,7 @@ export interface Recommendation {
     budget: string;
     summary: string;
     weather: string;
+    destinationImageURL: string;
     destinationOverview: string;
     estimatedBudget: Budget;
     itinerary: Itinerary[];

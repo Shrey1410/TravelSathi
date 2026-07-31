@@ -11,8 +11,9 @@ public class Trip {
     private String userId;
     private String source;
     private String destination;
+    private Integer numberOfTravelers;
+    private String additionalPreference;
     private LocalDate startDate;
-    private Long budget;
     private LocalDate endDate;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

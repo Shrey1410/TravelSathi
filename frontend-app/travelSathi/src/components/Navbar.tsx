@@ -1,7 +1,25 @@
 import React from "react";
+import type { RootState } from "../store/store";
+import { useSelector } from "react-redux";
 import { Link } from "react-router";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase/firebase"
 
 const Navbar = () => {
+
+  const isLoggedIn = useSelector(
+    (state: RootState) => state.auth.isLoggedIn
+  );
+
+  const handleLogout = async () =>{
+    console.log("entered")
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  
   return (
     <nav className="sticky top-0 z-50 bg-white shadow-sm border-b border-gray-200">
       <div className="max-w-7xl mx-auto h-20 px-6 flex items-center justify-between">
@@ -31,9 +49,16 @@ const Navbar = () => {
           <Link to="/trips" className="px-5 py-2 rounded-lg border-2 border-blue-600 text-blue-600 bg-white hover:bg-blue-50 transition-all duration-200 font-medium">
             Check your Trips
           </Link>
-          <Link to="/login" className="px-5 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-all duration-200 font-medium">
+          {!isLoggedIn ? <Link to="/login" className="px-5 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-all duration-200 font-medium">
             Login
-          </Link>
+          </Link> :
+          <button onClick={(e) => {
+            e.preventDefault()
+            handleLogout()
+          }} className="px-5 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-all duration-200 font-medium">
+            Logout
+          </button>
+          }
         </div>
 
       </div>

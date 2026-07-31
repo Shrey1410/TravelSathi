@@ -1,9 +1,7 @@
 import {
     CalendarDays,
     Heart,
-    MapPin,
-    Share2,
-    Wallet,
+    Share2
   } from "lucide-react";
   
   import type { Recommendation } from "../types/Recommendation" ;
@@ -13,12 +11,13 @@ import {
   }
   
   const HeroSection = ({ recommendation }: HeroProps) => {
+    console.log(recommendation)
     return (
       <section
         className="relative h-[420px] rounded-3xl overflow-hidden shadow-2xl"
         style={{
           backgroundImage:
-            "url('https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=1600')",
+            `url('${recommendation.destinationImageURL}')`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
@@ -39,14 +38,6 @@ import {
                   <span>
                     {recommendation.startDate} - {recommendation.endDate}
                   </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <MapPin size={20} />
-                  <span>{recommendation.duration}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Wallet size={20} />
-                  <span>{recommendation.budget}</span>
                 </div>
               </div>
             </div>

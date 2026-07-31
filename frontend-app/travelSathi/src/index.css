@@ -1,1 +1,12 @@
 @import "tailwindcss";
+@import '@firebase-oss/ui-styles/dist.min.css';
+
+:root {
+    --fui-primary: #2563eb;         /* button/link color (matches your blue-600) */
+    --fui-primary-hover: #1d4ed8;
+    --fui-primary-surface: #ffffff; /* text color on primary buttons */
+    --fui-text: #1e293b;            /* body text */
+    --fui-text-muted: #64748b;      /* subtitle text */
+    --fui-background: #ffffff;      /* card background */
+    --fui-border: #cbd5e1;          /* input/border color */
+  }

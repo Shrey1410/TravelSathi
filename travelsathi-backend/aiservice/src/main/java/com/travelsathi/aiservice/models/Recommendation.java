@@ -27,6 +27,7 @@ public class Recommendation {
     private String weather;
     private List<Itinerary> itinerary;
     private Budget estimatedBudget;
+    private String destinationImageURL;
 
     private List<String> packingSuggestions;
 
