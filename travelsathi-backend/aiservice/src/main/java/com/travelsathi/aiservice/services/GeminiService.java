@@ -26,6 +26,11 @@ public class GeminiService {
         this.webClient = webClientBuilder.build();
     }
 
+    /**
+     * Calls the Gemini Service API and fetches the response from there
+     * @param question
+     * @return
+     */
     public String getAnswer(String question){
         Map<String, Object> requestBody = Map.of(
             "model" , "gemini-3.6-flash",

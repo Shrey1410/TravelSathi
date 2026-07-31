@@ -42,6 +42,11 @@ public class UserService {
         return userResponse;
     }
 
+    /**
+     * Fetches user Profile from the database on basis of ProviderId
+     * @param providerId
+     * @return
+     */
     public UserResponse getUserProfile(String providerId){
         Users user = userRepository.findByProviderId(providerId).orElseThrow(()-> new RuntimeException("User Does not Exists"));
         UserResponse userResponse = new UserResponse();
@@ -55,6 +60,12 @@ public class UserService {
         return userResponse;
     }
 
+    /**
+     * Checks user exists or not for given providerId user by other services to verify that providerId is corresponding
+     * to a valid user or not.
+     * @param providerId
+     * @return
+     */
     public boolean existsByProviderId(String providerId){
         log.info("Calling user validation API for userId: {}", providerId);
         return userRepository.existsByProviderId(providerId);

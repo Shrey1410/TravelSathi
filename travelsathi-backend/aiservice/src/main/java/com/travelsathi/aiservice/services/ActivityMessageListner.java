@@ -20,19 +20,31 @@ public class ActivityMessageListner {
     @Autowired
     private RecommendationRepository recommendationRepository;
 
+    /**
+     * This will Listen for the events published in RabbitMQ messaging Queue
+     * and generates the corresponding Recommendation
+     * @param trip
+     */
     @RabbitListener(queues = "activity.queue")
     public void processActivity(Trip trip) {
-        log.info("Received activity for processing: {}", trip.getId());
+        log.info("Received trip for processing: {}", trip);
         try{
+            //1. Generates the Recommendation
             Recommendation recommendation = aiService.generateRecommendation(trip);
+
+            //2. Set the userId and TripId for the generated Recommendation
             recommendation.setUserId(trip.getUserId());
             recommendation.setTripId(trip.getId());
+
+            //3. Save the Generated Recommendation to the Database.
             recommendationRepository.save(recommendation);
         }
         catch(Exception e){
             log.error("Exception occured during recommendation generation.", e);
         }
-        // log.info("Generated Recommendation: {}", aiService.generateRecommendation(trip));
+        finally{
+            log.info("Generated Recommendation");
+        }
     }
     
 }

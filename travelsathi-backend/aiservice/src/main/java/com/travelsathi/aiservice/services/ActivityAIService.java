@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.travelsathi.aiservice.models.Recommendation;
-import com.travelsathi.aiservice.repository.RecommendationRepository;
 import com.travelsathi.aiservice.models.Trip;
 
 import lombok.extern.slf4j.Slf4j;
@@ -18,13 +17,28 @@ public class ActivityAIService {
     @Autowired
     private GeminiService geminiService;
 
+    /**
+     * This method used for generating the Recommendation
+     * @param trip
+     * @return
+     */
     public Recommendation generateRecommendation(Trip trip){
+        //1. Generate the Prompt for AI 
         String prompt = createPromptForActivity(trip);
+
+        //2. Call GeminiService for generating response
         String aiResponse = geminiService.getAnswer(prompt);
+
+        //3. Using the Response generate the Recommendation
         Recommendation recommendation = processAiResponse(aiResponse);
         return recommendation;
     }
 
+    /**
+     * This converts the AI Response to the Recommendation Object
+     * @param aiResponse
+     * @return
+     */
     private Recommendation processAiResponse(String aiResponse){
         try{
             ObjectMapper mapper = new ObjectMapper(); 
@@ -46,6 +60,11 @@ public class ActivityAIService {
         }
     }
 
+    /**
+     * This creates the Prompt for generating the Recommendation
+     * @param trip
+     * @return
+     */
     private String createPromptForActivity(Trip trip){
         return String.format(
             """

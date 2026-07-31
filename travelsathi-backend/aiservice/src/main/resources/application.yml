@@ -1,36 +1,7 @@
 spring:
   application:
     name: aiservice
+
+# All the config is fetched from the config server
   config:
     import: optional:configserver:http://localhost:8888
-#   data:
-#     mongodb:
-#       uri: mongodb://localhost:27017/travelsathi-ai
-#       database: travelsathi-ai
-#   rabbitmq:
-#     host: localhost
-#     port: 5672z
-#     username: guest
-#     password: guest
-
-# eureka:
-#   client:
-#     serviceUrl:
-#       defaultZone: http://localhost:8761/eureka/
-
-# server:
-#   port: 8003
-
-# rabbitmq:
-#   exchange:
-#     name: activity.exchange
-#   queue:
-#     name: activity.queue
-#   routing:
-#     key: activity.tracking
-
-# # Add your gemini key and URL
-# # gemini:
-# #   api:
-# #     url:
-# #     key:

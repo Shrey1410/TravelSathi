@@ -34,6 +34,11 @@ public class TripService {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
+    /**
+     * Utility method for converting the Trip into TripResponse
+     * @param trip
+     * @return
+     */
     private TripResponse mapToResponse(Trip trip){
         TripResponse response = new TripResponse();
         response.setId(trip.getId());
@@ -49,15 +54,23 @@ public class TripService {
         return response;
     }
 
+    /**
+     * This service is used to save the Trip to database and Publish the corresponding event to RabbitMQ 
+     * message queue for AI processing
+     * @param request
+     * @return
+     */
     public TripResponse createTrip(TripRequest request) {
 
         log.info("Calling user validation API for userId: {}", request.getUserId());
 
+        //1. Validate the userId 
         boolean isValidUser = userValidationService.validateUser(request.getUserId());
         if(!isValidUser){
             throw new RuntimeException("Invalid user:" + request.getUserId());
         }
 
+        //2. Create the Trip object and save it to database
         Trip trip = Trip.builder()
                         .userId(request.getUserId())
                         .source(request.getSource())
@@ -71,7 +84,7 @@ public class TripService {
         Trip tripSaved = tripRepository.save(trip);
         TripResponse response = mapToResponse(tripSaved);
 
-        // Publish to RabbitMQ for AI Processing
+        //3 . Publish to RabbitMQ for AI Processing
         try{
             rabbitTemplate.convertAndSend(exchange, routingKey, tripSaved);
         }
@@ -82,6 +95,11 @@ public class TripService {
         return response;
     }
 
+    /**
+     * This fetches the List of All trips for the given userId
+     * @param userId
+     * @return
+     */
     public List<TripResponse> getUserTrips(String userId){
         List<Trip> result = tripRepository.findByUserId(userId);
         List<TripResponse> response = new ArrayList<>();
@@ -92,6 +110,11 @@ public class TripService {
         return response;
     }
 
+    /**
+     * This fetches a particular trip for a given tripId
+     * @param tripId
+     * @return
+     */
     public TripResponse getTrip(String tripId){
         Trip result = tripRepository.findById(tripId).orElseThrow(()-> new RuntimeException("Trip does not found."));
         return mapToResponse(result);

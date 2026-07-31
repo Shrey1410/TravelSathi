@@ -15,10 +15,20 @@ public class RecommendationService {
     private RecommendationRepository recommendationRepository;
 
 
+    /**
+     * Fetches the user Recommendation List for given userId
+     * @param userId
+     * @return
+     */
     public List<Recommendation> getUserRecommendation(String userId){
         return recommendationRepository.findByUserId(userId);
     }
 
+    /**
+     * Fetches the trip Recommendation for given tripId
+     * @param tripId
+     * @return
+     */
     public Recommendation getActivityRecommendation(String tripId){
         return recommendationRepository.findByTripId(tripId).orElseThrow(() -> new RuntimeException("No Recommendation found for this activity."));
     }

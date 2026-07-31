@@ -22,9 +22,14 @@ public class UserController {
     @Autowired
     private UserService userService;
     
+    /**
+     * This Endpoint will fetch the user Profile for given providerId
+     * @param userId
+     * @return
+     */
     @GetMapping("/{providerId}")
-    public ResponseEntity<UserResponse> getUserProfie(@PathVariable String userId){
-        return ResponseEntity.ok(userService.getUserProfile(userId));
+    public ResponseEntity<UserResponse> getUserProfie(@PathVariable String providerId){
+        return ResponseEntity.ok(userService.getUserProfile(providerId));
     }
 
     /**
@@ -37,6 +42,11 @@ public class UserController {
         return ResponseEntity.ok(userService.createOrUpdateUserProfile(request));
     }
 
+    /**
+     * This checks that whether the user exists with given providerId or not user by other microservices
+     * @param providerId 
+     * @return
+     */
     @GetMapping("/{providerId}/validate")
     public ResponseEntity<Boolean> validateUserId(@PathVariable String providerId){
         return ResponseEntity.ok(userService.existsByProviderId(providerId));

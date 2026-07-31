@@ -22,17 +22,13 @@ public class FirebaseConfig {
         try {
             InputStream serviceAccount = new ClassPathResource("firebase-service-account.json").getInputStream();
 
+            // Create the HTTP transport used by Firebase.
             HttpTransport transport = new NetHttpTransport.Builder().build();
 
-            HttpRequestInitializer requestInitializer = request -> {
-                request.getHeaders().setAcceptEncoding(null); // disable gzip negotiation
-            };
+            // Configure Firebase using the service account credentials.
+            FirebaseOptions options = FirebaseOptions.builder().setCredentials(GoogleCredentials.fromStream(serviceAccount)).setHttpTransport(transport).build();
 
-            FirebaseOptions options = FirebaseOptions.builder()
-                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                    .setHttpTransport(transport)
-                    .build();
-
+            // initializing Firebase.
             FirebaseApp.initializeApp(options);
 
         } catch (Exception error) {

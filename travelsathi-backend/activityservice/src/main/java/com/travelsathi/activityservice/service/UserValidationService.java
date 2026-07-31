@@ -13,6 +13,12 @@ public class UserValidationService {
     @Autowired
     private WebClient userServiceWebClient;
 
+    /**
+     * Here calling the api for user validation of User Microservice -
+     *  -Microservice validates the userId exists in that database or not.
+     * @param userId
+     * @return
+     */
     public boolean validateUser(String userId){
         try{
             return userServiceWebClient.get().uri("/api/v1/users/{userId}/validate", userId).retrieve().bodyToMono(Boolean.class).block();

@@ -1,29 +1,7 @@
 spring:
   application:
     name: activityservice
+
+# All configs to be fetched from config server
   config:
     import: optional:configserver:http://localhost:8888
-#   data:
-#     mongodb:
-#       uri: mongodb://localhost:27017/travel_sathi_trip_db
-#   rabbitmq:
-#     host: localhost
-#     port: 5672
-#     username: guest
-#     password: guest
-
-# server:
-#   port: 8001
-
-# eureka:
-#   client:
-#     serviceUrl:
-#       defaultZone: http://localhost:8761/eureka/
-
-# rabbitmq:
-#   exchange:
-#     name: activity.exchange
-#   queue:
-#     name: activity.queue
-#   routing:
-#     key: activity.tracking

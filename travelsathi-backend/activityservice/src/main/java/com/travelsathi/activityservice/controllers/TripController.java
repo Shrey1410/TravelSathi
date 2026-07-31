@@ -23,16 +23,33 @@ public class TripController {
     @Autowired
     private TripService tripService;
     
+    /**
+     * This Endpoint is used to create the Trip
+     * @param request
+     * @return
+     */
     @PostMapping
     public ResponseEntity<TripResponse> createTrip(@RequestBody TripRequest request){
         return ResponseEntity.ok(tripService.createTrip(request));
     }
 
+    /**
+     * This endpoint is used for fetching the List of all the trips by given providerId
+     * @param providerId
+     * @return
+     */
+    // TO-DO: Implement the pagination for this Endpoint
     @GetMapping
-    public ResponseEntity<List<TripResponse>> getUserTrips(@RequestParam String userId){
-        return ResponseEntity.ok(tripService.getUserTrips(userId));
+    public ResponseEntity<List<TripResponse>> getUserTrips(@RequestParam String providerId){
+        return ResponseEntity.ok(tripService.getUserTrips(providerId));
     }
 
+    /**
+     * This endpoint is used for fetching a particular Trip corresponding to given tripId
+     * @param tripId
+     * @return
+     */
+    // Currently frontend does not uses this Endpoint.
     @GetMapping("/{tripId}")
     public ResponseEntity<TripResponse> getTrip(@PathVariable String tripId){
         return ResponseEntity.ok(tripService.getTrip(tripId));
