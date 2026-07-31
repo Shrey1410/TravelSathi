@@ -11,7 +11,7 @@ return (
     <div className="w-full max-w-md bg-white rounded-2xl shadow-xl px-6 py-3 max-h-[95vh]">
         {mode === "signIn" ? (
         <SignInAuthScreen
-            onSignIn={() => navigate("/")}
+            onSignIn={() => navigate("/complete-profile")}
             onSignUpClick={() => setMode("signUp")}
         />
         ) : (

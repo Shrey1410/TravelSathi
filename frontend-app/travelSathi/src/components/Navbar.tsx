@@ -1,11 +1,13 @@
 import type { RootState } from "../store/store";
 import { useSelector } from "react-redux";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/firebase"
 import { toast } from "sonner";
 
 const Navbar = () => {
+
+  const navigate = useNavigate();
 
   const isLoggedIn = useSelector(
     (state: RootState) => state.auth.isLoggedIn
@@ -16,6 +18,7 @@ const Navbar = () => {
     try {
       await signOut(auth);
       toast.success("Logout successful!")
+      navigate("/")
     } catch (error) {
       toast.error("Error while Logout!");
       console.error(error);

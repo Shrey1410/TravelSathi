@@ -26,7 +26,7 @@ const TripPage = () => {
           `http://localhost:8005/api/v1/trips`,
           {
             params: {
-              userId: user.uid,
+              providerId: user.uid,
             },
             headers: {
               Authorization: `Bearer ${idToken}`,

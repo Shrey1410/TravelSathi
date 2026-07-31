@@ -14,6 +14,7 @@ import { useLocation, useNavigate, useParams } from "react-router";
 import { getAuth } from "firebase/auth";
 import axios from "axios";
 import type { Trip } from "../types/Trip";
+import { toast } from "sonner";
 
 const RecommendationPage = () => {
 
@@ -56,6 +57,8 @@ const RecommendationPage = () => {
           budget : res.data?.estimatedBudget?.total
         })
       } catch (err) {
+        toast.info("Please Wait AI Plan is in Progress")
+        navigate("/trips")
         console.log(err);
       }
     }

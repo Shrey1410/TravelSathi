@@ -9,7 +9,8 @@ export default function CompleteProfilePage() {
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading1, setLoading1] = useState(true);
+  const [loading2, setLoading2] = useState(false);
 
   const handleSubmit = async ( e: SubmitEvent<HTMLFormElement> ) => {
     e.preventDefault();
@@ -18,7 +19,7 @@ export default function CompleteProfilePage() {
       return;
     }
     try {
-      setLoading(true);
+      setLoading2(true);
       const auth = getAuth();
       const user = auth.currentUser;
       if (!user) {
@@ -46,21 +47,51 @@ export default function CompleteProfilePage() {
       toast.error("Error while creating user profile!")
       console.error(error);
     } finally {
-      setLoading(false);
+      setLoading2(false);
     }
   };
 
   useEffect(() => {
-    const auth = getAuth();
-    const user = auth.currentUser;
-    if (!user) {
-      navigate("/login");
-      return;
+    const fetchUserExists = async ()=>{
+      setLoading1(true)
+      const auth = getAuth();
+      const user = auth.currentUser;
+      if(!user){
+        navigate("/login")
+        return
+      }
+      const idToken = await user.getIdToken();
+      try{
+        const res = await axios.get(
+          `http://localhost:8005/api/v1/users/${user.uid}/validate`,
+          {
+            headers: {
+              Authorization: `Bearer ${idToken}`,
+            },
+          }
+        )
+        console.log(res.data)
+        if(res.data){
+          navigate("/")
+        }
+        setLoading1(false)
+      }
+      catch(error){
+        console.log(error)
+        navigate("/")
+        toast.error("Some Error happened!")
+      }
     }
-    else{
-      navigate("/")
-    }
+    fetchUserExists()
   }, [navigate])
+
+  if(loading1){
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <div className="h-10 w-10 animate-spin rounded-full border-4 border-blue-500 border-t-transparent" />
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-slate-100 flex items-center justify-center px-4">
@@ -105,10 +136,10 @@ export default function CompleteProfilePage() {
           </div>
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading2}
             className="w-full rounded-lg bg-blue-600 text-white py-2.5 hover:bg-blue-700 disabled:opacity-60"
           >
-            {loading ? "Saving..." : "Continue"}
+            {loading2 ? "Saving..." : "Continue"}
           </button>
         </form>
       </div>
